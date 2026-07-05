@@ -111,9 +111,9 @@
     background:#e8f6d8;border:2px solid var(--ziel);border-radius:14px;
     padding:16px;text-align:center;margin:10px 0;
   }
-  .ewak-box .strzalka-ewak{font-size:4.5rem;line-height:1;display:block;margin:6px 0;}
-  .ewak-box svg{width:110px;height:110px;display:none;margin:8px auto;}
-  .ewak-box .kierunek{font-size:1.15rem;font-weight:800;color:#3d7a00;text-transform:uppercase;}
+  .ewak-box .plan-info{font-size:1rem;font-weight:700;color:#3d7a00;}
+  #ewak-strzalka-blok{border-top:1px solid #c5e3a5;margin-top:10px;padding-top:10px;}
+  .ewak-box svg{width:110px;height:110px;display:block;margin:8px auto 0;}
   .krok{display:flex;gap:10px;margin:8px 0;align-items:flex-start;}
   .krok .nr{
     flex:0 0 26px;height:26px;border-radius:50%;background:var(--ziel-glowna);
@@ -230,18 +230,19 @@
     </summary>
     <div class="tresc">
       <div class="ewak-box" id="ewak-box">
-        <!-- strzałka wstawiana automatycznie na podstawie linku QR -->
-        <span class="lang-pl" style="display:block;">Po wyjściu z pokoju:</span>
-        <span class="lang-en" style="display:block;">After leaving your room:</span>
-        <span class="strzalka-ewak" id="ewak-strzalka">🧭</span>
-        <!-- duża strzałka kierunkowa — obraca się wg linku QR (lewo/prawo/prosto) -->
-        <svg id="ewak-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M50 10 L82 50 H62 V90 H38 V50 H18 Z"
-                fill="#3d7a00" stroke="#3d7a00" stroke-width="6" stroke-linejoin="round"/>
-        </svg>
-        <div class="kierunek" id="ewak-kierunek">
-          <span class="lang-pl">sprawdź plan ewakuacji na drzwiach pokoju</span>
-          <span class="lang-en">check the evacuation plan on your room door</span>
+        <!-- na górze: zawsze widoczna informacja o planie na drzwiach -->
+        <div class="plan-info">
+          <span class="lang-pl">📋 Sprawdź plan ewakuacji na drzwiach pokoju</span>
+          <span class="lang-en">📋 Check the evacuation plan on your room door</span>
+        </div>
+        <!-- pod spodem: strzałka kierunkowa — pokazuje się i obraca wg linku QR (lewo/prawo/prosto) -->
+        <div id="ewak-strzalka-blok" style="display:none;">
+          <span class="lang-pl" style="display:block;">Po wyjściu z pokoju:</span>
+          <span class="lang-en" style="display:block;">After leaving your room:</span>
+          <svg id="ewak-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M50 10 L82 50 H62 V90 H38 V50 H18 Z"
+                  fill="#3d7a00" stroke="#3d7a00" stroke-width="6" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
       <div class="lang-pl">
@@ -510,14 +511,11 @@ function ustawJezyk(j){
     b.innerHTML = '<span class="lang-pl">Pokój ' + pokoj + '</span><span class="lang-en">Room ' + pokoj + '</span>';
   }
   // strzałka SVG obracana w kierunku ewakuacji (lewo / prawo / prosto)
-  // — sama grafika, bez podpisu słownego
+  // — pokazuje się tylko, gdy link QR zawiera kierunek; sama grafika, bez słów
   var obroty = { lewo:-90, prawo:90, prosto:0 };
   if(obroty.hasOwnProperty(ewak)){
-    document.getElementById('ewak-strzalka').style.display = 'none';
-    document.getElementById('ewak-kierunek').style.display = 'none';
-    var svg = document.getElementById('ewak-svg');
-    svg.style.display = 'block';
-    svg.style.transform = 'rotate(' + obroty[ewak] + 'deg)';
+    document.getElementById('ewak-strzalka-blok').style.display = 'block';
+    document.getElementById('ewak-svg').style.transform = 'rotate(' + obroty[ewak] + 'deg)';
   }
 })();
 </script>
