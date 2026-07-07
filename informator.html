@@ -11,11 +11,12 @@
   JAK EDYTOWAĆ TREŚCI:
   1. Otwórz ten plik w Notatniku (prawy przycisk -> Otwórz za pomocą -> Notatnik)
   2. Szukaj komentarzy:  EDYTUJ TUTAJ
-  3. Każdy tekst jest podwójnie: wersja polska (lang-pl) i angielska (lang-en).
-     Zmieniając coś po polsku, popraw też wersję angielską obok.
+  3. Każdy tekst istnieje w 5 wersjach językowych:
+       lang-pl (polski), lang-en (angielski), lang-es (hiszpański),
+       lang-de (niemiecki), lang-uk (ukraiński).
+     Zmieniając coś po polsku, popraw też pozostałe wersje obok
+     (albo poproś Claude — zrobi to za Ciebie).
   4. Zapisz plik i wgraj ponownie na hosting (patrz INSTRUKCJA.txt)
-
-  MIEJSCA OZNACZONE [UZUPEŁNIJ] wymagają wpisania prawdziwych danych hotelu!
   ═══════════════════════════════════════════════════════════════════
 -->
 <style>
@@ -54,7 +55,7 @@
   }
   .pasek-gorny{
     display:flex;flex-direction:column;align-items:center;
-    gap:10px;margin-bottom:10px;padding-top:26px;
+    gap:10px;margin-bottom:10px;padding-top:30px;
   }
   .loga{display:flex;gap:10px;align-items:center;justify-content:center;}
   .loga img{
@@ -62,12 +63,12 @@
     border-radius:10px;padding:5px 8px;
   }
   .lang-switch{
-    display:flex;gap:8px;
-    position:absolute;top:12px;right:12px;
+    display:flex;gap:5px;
+    position:absolute;top:10px;right:10px;
   }
   .lang-switch button{
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.5);
-    color:#fff;border-radius:999px;padding:5px 14px;font-size:.85rem;
+    color:#fff;border-radius:999px;padding:4px 9px;font-size:.75rem;
     cursor:pointer;font-weight:600;
   }
   .lang-switch button.active{background:#fff;color:var(--ziel-ciemna);}
@@ -139,18 +140,13 @@
     text-align:center;font-size:.8rem;color:var(--szary);padding:20px 12px;
   }
   a{color:var(--ziel-ciemna);}
-  /* przełącznik języka: domyślnie PL */
-  .lang-en{display:none;}
-  body.en .lang-pl{display:none;}
-  body.en .lang-en{display:block;}
-  span.lang-en, td.lang-en, li.lang-en{display:none;}
-  body.en span.lang-en{display:inline;}
-  body.en td.lang-en{display:table-cell;}
-  body.en li.lang-en{display:list-item;}
-  body.en span.lang-pl, body.en td.lang-pl, body.en li.lang-pl{display:none;}
+  /* ─── JĘZYKI: widoczna tylko aktywna wersja (klasa na <body>: pl/en/es/de/uk) ─── */
+  .lang-pl,.lang-en,.lang-es,.lang-de,.lang-uk{display:none;}
+  body.pl .lang-pl, body.en .lang-en, body.es .lang-es,
+  body.de .lang-de, body.uk .lang-uk{display:revert;}
 </style>
 </head>
-<body>
+<body class="pl">
 
 <header>
   <div class="pasek-gorny">
@@ -161,11 +157,14 @@
       <img src="logo-tramwaj.jpg" alt="" onerror="this.style.display='none'">
     </div>
     <div class="lang-switch">
-      <button id="btn-pl" class="active" onclick="ustawJezyk('pl')">PL</button>
-      <button id="btn-en" onclick="ustawJezyk('en')">EN</button>
+      <button data-jezyk="pl" class="active" onclick="ustawJezyk('pl')">PL</button>
+      <button data-jezyk="en" onclick="ustawJezyk('en')">EN</button>
+      <button data-jezyk="es" onclick="ustawJezyk('es')">ES</button>
+      <button data-jezyk="de" onclick="ustawJezyk('de')">DE</button>
+      <button data-jezyk="uk" onclick="ustawJezyk('uk')">UA</button>
     </div>
   </div>
-  <h1><span class="lang-pl">Witamy w hotelu!</span><span class="lang-en">Welcome to the hotel!</span></h1>
+  <h1><span class="lang-pl">Witamy w hotelu!</span><span class="lang-en">Welcome to the hotel!</span><span class="lang-es">¡Bienvenidos al hotel!</span><span class="lang-de">Willkommen im Hotel!</span><span class="lang-uk">Вітаємо в готелі!</span></h1>
   <div class="hotel">ibis Styles Warszawa City</div>
   <div class="pokoj" id="pokoj-badge" style="display:none;"></div>
 </header>
@@ -176,12 +175,14 @@
   <details class="sekcja" open>
     <summary class="naglowek">
       <span class="ikona" style="background:#edf6e0;">🕑</span>
-      <span class="lang-pl">Zameldowanie i wymeldowanie</span><span class="lang-en">Check-in &amp; check-out</span>
+      <span class="lang-pl">Zameldowanie i wymeldowanie</span><span class="lang-en">Check-in &amp; check-out</span><span class="lang-es">Check-in y check-out</span><span class="lang-de">Check-in &amp; Check-out</span><span class="lang-uk">Заїзд і виїзд</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
       <!-- EDYTUJ TUTAJ: godziny doby hotelowej -->
-      <p><span class="tag">Check-in: od 15:00</span> <span class="tag">Check-out: do 11:00</span></p>
+      <p>
+        <span class="lang-pl"><span class="tag">Check-in: od 15:00</span> <span class="tag">Check-out: do 11:00</span></span><span class="lang-en"><span class="tag">Check-in: from 3:00 PM</span> <span class="tag">Check-out: until 11:00 AM</span></span><span class="lang-es"><span class="tag">Check-in: desde 15:00</span> <span class="tag">Check-out: hasta 11:00</span></span><span class="lang-de"><span class="tag">Check-in: ab 15:00</span> <span class="tag">Check-out: bis 11:00</span></span><span class="lang-uk"><span class="tag">Заїзд: з 15:00</span> <span class="tag">Виїзд: до 11:00</span></span>
+      </p>
       <div class="lang-pl">
         <p>Późne wymeldowanie? Zapytaj w recepcji o dostępność — usługa płatna wg cennika poniżej (sekcja „Opłaty dodatkowe").</p>
         <p>Recepcja czynna <strong>24/7</strong> — tel. wewnętrzny <strong>9</strong>.</p>
@@ -190,6 +191,18 @@
         <p>Need a late check-out? Ask reception about availability — see the "Extra charges" section for the fee.</p>
         <p>Reception is open <strong>24/7</strong> — internal phone <strong>9</strong>.</p>
       </div>
+      <div class="lang-es">
+        <p>¿Salida tardía? Pregunte en recepción por la disponibilidad — servicio de pago según la sección «Cargos adicionales».</p>
+        <p>Recepción abierta <strong>24/7</strong> — teléfono interno <strong>9</strong>.</p>
+      </div>
+      <div class="lang-de">
+        <p>Später Check-out? Fragen Sie an der Rezeption nach der Verfügbarkeit — kostenpflichtig laut Preisliste (Abschnitt „Zusatzkosten").</p>
+        <p>Die Rezeption ist <strong>rund um die Uhr</strong> besetzt — Haustelefon <strong>9</strong>.</p>
+      </div>
+      <div class="lang-uk">
+        <p>Пізній виїзд? Запитайте на рецепції про можливість — послуга платна згідно з розділом «Додаткові послуги та штрафи».</p>
+        <p>Рецепція працює <strong>цілодобово</strong> — внутрішній телефон <strong>9</strong>.</p>
+      </div>
     </div>
   </details>
 
@@ -197,7 +210,7 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#fff3d6;">🥐</span>
-      <span class="lang-pl">Śniadania</span><span class="lang-en">Breakfast</span>
+      <span class="lang-pl">Śniadania</span><span class="lang-en">Breakfast</span><span class="lang-es">Desayuno</span><span class="lang-de">Frühstück</span><span class="lang-uk">Сніданки</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
@@ -214,6 +227,24 @@
         <p>Breakfast not included in your rate? You can add it at reception — <strong>PLN 100 /person</strong>.</p>
         <p>Gluten-free and vegetarian options available — just ask our restaurant team.</p>
       </div>
+      <div class="lang-es">
+        <p><span class="tag">Lun–Vie: 6:30 – 10:00</span> <span class="tag">Fines de semana y festivos: 6:30 – 11:00</span></p>
+        <p>El desayuno bufé se sirve en el restaurante de la <strong>7.ª planta</strong>.</p>
+        <p>¿Su tarifa no incluye desayuno? Puede añadirlo en recepción — <strong>100 PLN por persona</strong>.</p>
+        <p>Opciones sin gluten y vegetarianas — pregunte al personal del restaurante.</p>
+      </div>
+      <div class="lang-de">
+        <p><span class="tag">Mo–Fr: 6:30 – 10:00</span> <span class="tag">Wochenende &amp; Feiertage: 6:30 – 11:00</span></p>
+        <p>Das Frühstücksbuffet servieren wir im Restaurant in der <strong>7. Etage</strong>.</p>
+        <p>Frühstück nicht inklusive? An der Rezeption zubuchbar — <strong>100 PLN pro Person</strong>.</p>
+        <p>Glutenfreie und vegetarische Optionen — fragen Sie unser Restaurantteam.</p>
+      </div>
+      <div class="lang-uk">
+        <p><span class="tag">Пн–Пт: 6:30 – 10:00</span> <span class="tag">Вихідні та свята: 6:30 – 11:00</span></p>
+        <p>Сніданок «шведський стіл» подаємо в ресторані на <strong>7 поверсі</strong>.</p>
+        <p>Сніданок не входить у ваш тариф? Його можна докупити на рецепції — <strong>100 zł з особи</strong>.</p>
+        <p>Безглютенові та вегетаріанські страви — запитайте персонал ресторану.</p>
+      </div>
     </div>
   </details>
 
@@ -221,17 +252,26 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#e0f2fe;">📶</span>
-      <span class="lang-pl">Wi-Fi i kontakt z recepcją</span><span class="lang-en">Wi-Fi &amp; reception contact</span>
+      <span class="lang-pl">Wi-Fi i kontakt z recepcją</span><span class="lang-en">Wi-Fi &amp; reception contact</span><span class="lang-es">Wi-Fi y contacto con recepción</span><span class="lang-de">WLAN &amp; Kontakt zur Rezeption</span><span class="lang-uk">Wi-Fi та зв'язок з рецепцією</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
       <!-- EDYTUJ TUTAJ: dane wifi i telefony -->
-      <p><span class="tag">Sieć / Network: IBIS STYLES</span> <span class="tag">Hasło / Password: BEZ HASŁA/NO PASSWORD</span></p>
+      <p><span class="tag">Wi-Fi: IBIS STYLES</span> <span class="tag"><span class="lang-pl">bez hasła — sieć otwarta</span><span class="lang-en">no password — open network</span><span class="lang-es">sin contraseña — red abierta</span><span class="lang-de">ohne Passwort — offenes Netz</span><span class="lang-uk">без пароля — відкрита мережа</span></span></p>
       <div class="lang-pl">
         <p>Recepcja 24/7: tel. wewnętrzny <strong>9</strong> (z telefonu w pokoju) lub <strong>+48 22 488 33 00</strong> z komórki.</p>
       </div>
       <div class="lang-en">
         <p>Reception 24/7: dial <strong>9</strong> from your room phone, or <strong>+48 22 488 33 00</strong> from your mobile.</p>
+      </div>
+      <div class="lang-es">
+        <p>Recepción 24/7: marque el <strong>9</strong> desde el teléfono de la habitación o <strong>+48 22 488 33 00</strong> desde su móvil.</p>
+      </div>
+      <div class="lang-de">
+        <p>Rezeption 24/7: wählen Sie die <strong>9</strong> vom Zimmertelefon oder <strong>+48 22 488 33 00</strong> vom Handy.</p>
+      </div>
+      <div class="lang-uk">
+        <p>Рецепція 24/7: наберіть <strong>9</strong> з телефона в номері або <strong>+48 22 488 33 00</strong> з мобільного.</p>
       </div>
     </div>
   </details>
@@ -240,20 +280,22 @@
   <details class="sekcja" open id="sekcja-ewakuacja">
     <summary class="naglowek">
       <span class="ikona" style="background:#dcfce7;">🚪</span>
-      <span class="lang-pl">Droga ewakuacyjna</span><span class="lang-en">Emergency exit route</span>
+      <span class="lang-pl">Droga ewakuacyjna</span><span class="lang-en">Emergency exit route</span><span class="lang-es">Ruta de evacuación</span><span class="lang-de">Fluchtweg</span><span class="lang-uk">Шлях евакуації</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
       <div class="ewak-box" id="ewak-box">
         <!-- na górze: zawsze widoczna informacja o planie na drzwiach -->
         <div class="plan-info">
-          <span class="lang-pl">📋 Sprawdź plan ewakuacji na drzwiach pokoju</span>
-          <span class="lang-en">📋 Check the evacuation plan on your room door</span>
+          <span class="lang-pl">📋 Sprawdź plan ewakuacji na drzwiach pokoju</span><span class="lang-en">📋 Check the evacuation plan on your room door</span><span class="lang-es">📋 Consulte el plan de evacuación en la puerta de su habitación</span><span class="lang-de">📋 Beachten Sie den Fluchtplan an Ihrer Zimmertür</span><span class="lang-uk">📋 Перегляньте план евакуації на дверях номера</span>
         </div>
         <!-- pod spodem: strzałka kierunkowa — pokazuje się i obraca wg linku QR (lewo/prawo/prosto) -->
         <div id="ewak-strzalka-blok" style="display:none;">
-          <span class="lang-pl" style="display:block;">Po wyjściu z pokoju:</span>
-          <span class="lang-en" style="display:block;">After leaving your room:</span>
+          <div class="lang-pl">Po wyjściu z pokoju:</div>
+          <div class="lang-en">After leaving your room:</div>
+          <div class="lang-es">Al salir de la habitación:</div>
+          <div class="lang-de">Nach Verlassen des Zimmers:</div>
+          <div class="lang-uk">Після виходу з номера:</div>
           <svg id="ewak-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M50 10 L82 50 H62 V90 H38 V50 H18 Z"
                   fill="#3d7a00" stroke="#3d7a00" stroke-width="6" stroke-linejoin="round"/>
@@ -278,6 +320,33 @@
           <li>Emergency number: <strong>112</strong> · Reception: <strong>9</strong>.</li>
         </ul>
       </div>
+      <div class="lang-es">
+        <ul>
+          <li>La escalera de evacuación más cercana está señalizada con carteles verdes <strong>«EXIT»</strong>.</li>
+          <li>En caso de alarma <strong>no utilice los ascensores</strong> — solo las escaleras.</li>
+          <li>Lleve sus documentos, deje el equipaje. Cierre la puerta de la habitación (sin llave).</li>
+          <li>Punto de encuentro: <strong>la explanada frente al hotel, lado calle Grzybowska</strong>.</li>
+          <li>Emergencias: <strong>112</strong> · Recepción: <strong>9</strong>.</li>
+        </ul>
+      </div>
+      <div class="lang-de">
+        <ul>
+          <li>Das nächste Fluchttreppenhaus ist mit grünen <strong>„EXIT"</strong>-Schildern gekennzeichnet.</li>
+          <li>Im Alarmfall <strong>keine Aufzüge benutzen</strong> — nur die Treppen.</li>
+          <li>Dokumente mitnehmen, Gepäck zurücklassen. Zimmertür schließen (nicht abschließen).</li>
+          <li>Sammelplatz: <strong>die Fläche vor dem Hotel an der Grzybowska-Straße</strong>.</li>
+          <li>Notruf: <strong>112</strong> · Rezeption: <strong>9</strong>.</li>
+        </ul>
+      </div>
+      <div class="lang-uk">
+        <ul>
+          <li>Найближчі евакуаційні сходи позначені зеленими знаками <strong>«EXIT»</strong>.</li>
+          <li>Під час тривоги <strong>не користуйтеся ліфтами</strong> — лише сходами.</li>
+          <li>Візьміть документи, залиште багаж. Зачиніть двері номера (не на ключ).</li>
+          <li>Місце збору: <strong>майданчик перед готелем з боку вул. Гжибовської</strong>.</li>
+          <li>Екстрений номер: <strong>112</strong> · Рецепція: <strong>9</strong>.</li>
+        </ul>
+      </div>
     </div>
   </details>
 
@@ -285,7 +354,7 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#dcfce7;">❄️</span>
-      <span class="lang-pl">Klimatyzacja — jak obsługiwać</span><span class="lang-en">Air conditioning — how to use</span>
+      <span class="lang-pl">Klimatyzacja — jak obsługiwać</span><span class="lang-en">Air conditioning — how to use</span><span class="lang-es">Aire acondicionado — instrucciones</span><span class="lang-de">Klimaanlage — Bedienung</span><span class="lang-uk">Кондиціонер — як користуватися</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
@@ -306,6 +375,30 @@
         <div class="krok"><span class="nr">5</span><p>The A/C works only with the <strong>window closed</strong> — opening the window pauses cooling.</p></div>
         <p class="uwaga">A/C still not working? Let reception know — we'll check it right away.</p>
       </div>
+      <div class="lang-es">
+        <div class="krok"><span class="nr">1</span><p>Su habitación dispone de un <strong>panel táctil</strong> en la pared — por el diseño individual de las habitaciones, su ubicación puede variar.</p></div>
+        <div class="krok"><span class="nr">2</span><p>El botón <strong>⏻</strong> alterna entre <strong>AUTO</strong> (encendido) y <strong>OFF</strong> (apagado).</p></div>
+        <div class="krok"><span class="nr">3</span><p>Ajuste la temperatura con las <strong>flechas ‹ › del control deslizante</strong> a la derecha de la pantalla (recomendado 21–23 °C).</p></div>
+        <div class="krok"><span class="nr">4</span><p>El icono del <strong>ventilador</strong> regula la intensidad del aire.</p></div>
+        <div class="krok"><span class="nr">5</span><p>El aire acondicionado funciona solo con la <strong>ventana cerrada</strong> — al abrirla, el sistema se detiene.</p></div>
+        <p class="uwaga">¿No funciona a pesar de estos pasos? Avise a recepción — lo comprobaremos enseguida.</p>
+      </div>
+      <div class="lang-de">
+        <div class="krok"><span class="nr">1</span><p>Ihr Zimmer hat ein <strong>Touch-Bedienpanel</strong> an der Wand — je nach Zimmerdesign kann die Position variieren.</p></div>
+        <div class="krok"><span class="nr">2</span><p>Die <strong>⏻</strong>-Taste schaltet zwischen <strong>AUTO</strong> (an) und <strong>OFF</strong> (aus) um.</p></div>
+        <div class="krok"><span class="nr">3</span><p>Die Temperatur stellen Sie mit den <strong>Pfeilen ‹ › am Schieberegler</strong> rechts im Display ein (empfohlen 21–23 °C).</p></div>
+        <div class="krok"><span class="nr">4</span><p>Das <strong>Ventilator-Symbol</strong> regelt die Gebläsestärke.</p></div>
+        <div class="krok"><span class="nr">5</span><p>Die Klimaanlage läuft nur bei <strong>geschlossenem Fenster</strong> — beim Öffnen pausiert die Kühlung.</p></div>
+        <p class="uwaga">Funktioniert die Klimaanlage trotzdem nicht? Sagen Sie der Rezeption Bescheid — wir kümmern uns sofort.</p>
+      </div>
+      <div class="lang-uk">
+        <div class="krok"><span class="nr">1</span><p>У номері є <strong>сенсорна панель керування</strong> на стіні — через індивідуальний дизайн номерів вона може розташовуватися в різних місцях.</p></div>
+        <div class="krok"><span class="nr">2</span><p>Кнопка <strong>⏻</strong> перемикає режими <strong>AUTO</strong> (увімкнено) та <strong>OFF</strong> (вимкнено).</p></div>
+        <div class="krok"><span class="nr">3</span><p>Температуру встановлюйте <strong>стрілками ‹ › на повзунку</strong> праворуч на екрані (рекомендовано 21–23 °C).</p></div>
+        <div class="krok"><span class="nr">4</span><p>Іконка <strong>вентилятора</strong> регулює силу обдуву.</p></div>
+        <div class="krok"><span class="nr">5</span><p>Кондиціонер працює лише при <strong>зачиненому вікні</strong> — якщо вікно відчинити, охолодження зупиняється.</p></div>
+        <p class="uwaga">Кондиціонер не працює попри ці кроки? Повідомте рецепцію — одразу перевіримо.</p>
+      </div>
     </div>
   </details>
 
@@ -313,7 +406,7 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#e0f2fe;">🧹</span>
-      <span class="lang-pl">Sprzątanie pokoju (housekeeping)</span><span class="lang-en">Housekeeping</span>
+      <span class="lang-pl">Sprzątanie pokoju (housekeeping)</span><span class="lang-en">Housekeeping</span><span class="lang-es">Limpieza de la habitación</span><span class="lang-de">Zimmerreinigung</span><span class="lang-uk">Прибирання номера</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
@@ -340,6 +433,39 @@
           <li>Need an extra pillow, blanket or toiletries? Call reception.</li>
         </ul>
       </div>
+      <div class="lang-es">
+        <ul>
+          <li>Limpiamos las habitaciones a diario de <strong>8:00 a 15:00</strong>.</li>
+          <li>El colgador de puerta de dos caras nos indica su preferencia:<br>
+            🟢 verde <strong>«COME HANG OUT»</strong> — por favor, limpien mi habitación;<br>
+            🩷 rosa <strong>«MY SPACE»</strong> — no molestar.</li>
+          <li>Cambio de toallas: reemplazamos las toallas dejadas <strong>en el suelo</strong>. Las colgadas se quedan (cuidemos juntos el medio ambiente 🌱).</li>
+          <li>En estancias largas cambiamos la ropa de cama cada <strong>3 noches</strong>.</li>
+          <li>¿Necesita otra almohada, manta o artículos de aseo? Llame a recepción.</li>
+        </ul>
+      </div>
+      <div class="lang-de">
+        <ul>
+          <li>Die Zimmer werden täglich zwischen <strong>8:00 und 15:00 Uhr</strong> gereinigt.</li>
+          <li>Der zweiseitige Türanhänger zeigt uns Ihren Wunsch:<br>
+            🟢 grün <strong>„COME HANG OUT"</strong> — bitte Zimmer reinigen;<br>
+            🩷 rosa <strong>„MY SPACE"</strong> — bitte nicht stören.</li>
+          <li>Handtuchwechsel: Handtücher <strong>auf dem Boden</strong> werden ersetzt. Aufgehängte bleiben bei Ihnen (gemeinsam für die Umwelt 🌱).</li>
+          <li>Bettwäsche wechseln wir bei längeren Aufenthalten alle <strong>3 Nächte</strong>.</li>
+          <li>Extra Kissen, Decke oder Kosmetik? Rufen Sie die Rezeption an.</li>
+        </ul>
+      </div>
+      <div class="lang-uk">
+        <ul>
+          <li>Номери прибираємо щодня з <strong>8:00 до 15:00</strong>.</li>
+          <li>Двостороння табличка на клямці підкаже нам ваш вибір:<br>
+            🟢 зелена <strong>«ZAPRASZAM»</strong> — будь ласка, приберіть номер;<br>
+            🩷 рожева <strong>«MOJA PRZESTRZEŃ»</strong> — не турбувати.</li>
+          <li>Заміна рушників: рушники, залишені <strong>на підлозі</strong>, замінимо на свіжі. Повішені — залишаються (разом дбаємо про довкілля 🌱).</li>
+          <li>Постільну білизну змінюємо кожні <strong>3 доби</strong> при довших проживаннях.</li>
+          <li>Потрібна додаткова подушка, ковдра чи косметика? Зателефонуйте на рецепцію.</li>
+        </ul>
+      </div>
     </div>
   </details>
 
@@ -347,11 +473,11 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#fff3d6;">🍽️</span>
-      <span class="lang-pl">Room service — restauracja Munja</span><span class="lang-en">Room service — Munja restaurant</span>
+      <span class="lang-pl">Room service — restauracja Munja</span><span class="lang-en">Room service — Munja restaurant</span><span class="lang-es">Room service — restaurante Munja</span><span class="lang-de">Zimmerservice — Restaurant Munja</span><span class="lang-uk">Рум-сервіс — ресторан Munja</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
-      <!-- EDYTUJ TUTAJ: godziny room service, telefon, link do menu PDF (dodamy po wgraniu na GitHub) -->
+      <!-- EDYTUJ TUTAJ: godziny room service, telefon, link do menu -->
       <div class="lang-pl">
         <p>Zamów dania i napoje z restauracji <strong>Munja</strong> (parter hotelu) prosto do pokoju — lub odwiedź nas na miejscu!</p>
         <p>
@@ -384,6 +510,54 @@
         <p>Orders &amp; reservations: <a href="tel:+48664901161"><strong>+48 664 901 161</strong></a></p>
         <p>📖 <a href="https://restauracja-munja.pl/menu/munja-grzybowska-43/" target="_blank">See the Munja restaurant menu</a></p>
       </div>
+      <div class="lang-es">
+        <p>Pida platos y bebidas del restaurante <strong>Munja</strong> (planta baja del hotel) directamente a su habitación — ¡o visítenos abajo!</p>
+        <p>
+          <span class="tag">Lun–Jue: 12:00 – 22:30</span>
+          <span class="tag">Vie: 12:00 – 23:30</span>
+          <span class="tag">Sáb: 13:00 – 23:30</span>
+          <span class="tag">Dom: 13:00 – 21:30</span>
+        </p>
+        <ul>
+          <li>Entrega en la habitación: <strong>25 PLN</strong> (se añade a la cuenta)</li>
+          <li>Tiempo de espera: hasta <strong>30 minutos</strong></li>
+          <li>Pago: tarjeta o efectivo</li>
+        </ul>
+        <p>Pedidos y reservas: <a href="tel:+48664901161"><strong>+48 664 901 161</strong></a></p>
+        <p>📖 <a href="https://restauracja-munja.pl/menu/munja-grzybowska-43/" target="_blank">Ver la carta del restaurante Munja</a></p>
+      </div>
+      <div class="lang-de">
+        <p>Bestellen Sie Speisen und Getränke aus dem Restaurant <strong>Munja</strong> (Erdgeschoss) direkt aufs Zimmer — oder besuchen Sie uns unten!</p>
+        <p>
+          <span class="tag">Mo–Do: 12:00 – 22:30</span>
+          <span class="tag">Fr: 12:00 – 23:30</span>
+          <span class="tag">Sa: 13:00 – 23:30</span>
+          <span class="tag">So: 13:00 – 21:30</span>
+        </p>
+        <ul>
+          <li>Lieferung aufs Zimmer: <strong>25 PLN</strong> (wird der Rechnung hinzugefügt)</li>
+          <li>Wartezeit: bis zu <strong>30 Minuten</strong></li>
+          <li>Zahlung: Karte oder bar</li>
+        </ul>
+        <p>Bestellungen &amp; Reservierungen: <a href="tel:+48664901161"><strong>+48 664 901 161</strong></a></p>
+        <p>📖 <a href="https://restauracja-munja.pl/menu/munja-grzybowska-43/" target="_blank">Speisekarte des Restaurants Munja ansehen</a></p>
+      </div>
+      <div class="lang-uk">
+        <p>Замовляйте страви та напої з ресторану <strong>Munja</strong> (перший поверх готелю) просто в номер — або завітайте до нас!</p>
+        <p>
+          <span class="tag">Пн–Чт: 12:00 – 22:30</span>
+          <span class="tag">Пт: 12:00 – 23:30</span>
+          <span class="tag">Сб: 13:00 – 23:30</span>
+          <span class="tag">Нд: 13:00 – 21:30</span>
+        </p>
+        <ul>
+          <li>Доставка в номер: <strong>25 zł</strong> (додається до рахунку)</li>
+          <li>Час очікування: до <strong>30 хвилин</strong></li>
+          <li>Оплата: картка або готівка</li>
+        </ul>
+        <p>Замовлення та бронювання: <a href="tel:+48664901161"><strong>+48 664 901 161</strong></a></p>
+        <p>📖 <a href="https://restauracja-munja.pl/menu/munja-grzybowska-43/" target="_blank">Переглянути меню ресторану Munja</a></p>
+      </div>
     </div>
   </details>
 
@@ -391,7 +565,7 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#edf6e0;">🏋️</span>
-      <span class="lang-pl">Prasowalnia i fitness</span><span class="lang-en">Ironing room &amp; fitness</span>
+      <span class="lang-pl">Prasowalnia i fitness</span><span class="lang-en">Ironing room &amp; fitness</span><span class="lang-es">Sala de plancha y gimnasio</span><span class="lang-de">Bügelzimmer &amp; Fitnessraum</span><span class="lang-uk">Прасувальна кімната та фітнес</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
@@ -408,22 +582,40 @@
         <h3>💪 Fitness room</h3>
         <p>Fitness room on the <strong>3rd floor</strong>, opposite <strong>room 314</strong>, open <strong>6 AM–10 PM</strong>. Free for hotel guests — access with your room card. Sports shoes required.</p>
       </div>
+      <div class="lang-es">
+        <h3><svg viewBox="0 0 24 24" width="17" height="17" style="vertical-align:-3px" fill="currentColor" aria-hidden="true"><path d="M9 5h7a5 5 0 0 1 5 5v6H2v-1c0-3.9 3.1-7 7-7h8v2H9a5 5 0 0 0-4.6 3H19v-3a3 3 0 0 0-3-3H9V5zM2 18h19v2H2v-2z"/></svg> Sala de plancha</h3>
+        <p>En la <strong>3.ª planta</strong>, frente a la <strong>habitación 325</strong>. Abierta 24/7, gratuita. Plancha y tabla disponibles.</p>
+        <h3>💪 Gimnasio</h3>
+        <p>En la <strong>3.ª planta</strong>, frente a la <strong>habitación 314</strong>, abierto de <strong>6:00 a 22:00</strong>. Gratis para los huéspedes — acceso con la tarjeta de la habitación. Se requiere calzado deportivo.</p>
+      </div>
+      <div class="lang-de">
+        <h3><svg viewBox="0 0 24 24" width="17" height="17" style="vertical-align:-3px" fill="currentColor" aria-hidden="true"><path d="M9 5h7a5 5 0 0 1 5 5v6H2v-1c0-3.9 3.1-7 7-7h8v2H9a5 5 0 0 0-4.6 3H19v-3a3 3 0 0 0-3-3H9V5zM2 18h19v2H2v-2z"/></svg> Bügelzimmer</h3>
+        <p>In der <strong>3. Etage</strong>, gegenüber <strong>Zimmer 325</strong>. Rund um die Uhr geöffnet, kostenlos. Bügeleisen und -brett vorhanden.</p>
+        <h3>💪 Fitnessraum</h3>
+        <p>In der <strong>3. Etage</strong>, gegenüber <strong>Zimmer 314</strong>, geöffnet <strong>6:00–22:00 Uhr</strong>. Für Hotelgäste kostenlos — Zugang mit der Zimmerkarte. Bitte Sportschuhe tragen.</p>
+      </div>
+      <div class="lang-uk">
+        <h3><svg viewBox="0 0 24 24" width="17" height="17" style="vertical-align:-3px" fill="currentColor" aria-hidden="true"><path d="M9 5h7a5 5 0 0 1 5 5v6H2v-1c0-3.9 3.1-7 7-7h8v2H9a5 5 0 0 0-4.6 3H19v-3a3 3 0 0 0-3-3H9V5zM2 18h19v2H2v-2z"/></svg> Прасувальна кімната</h3>
+        <p>На <strong>3 поверсі</strong>, навпроти <strong>номера 325</strong>. Працює цілодобово, безкоштовно. Праска та дошка на місці.</p>
+        <h3>💪 Фітнес-зал</h3>
+        <p>На <strong>3 поверсі</strong>, навпроти <strong>номера 314</strong>, працює <strong>6:00–22:00</strong>. Безкоштовно для гостей — вхід за карткою від номера. Просимо про спортивне взуття.</p>
+      </div>
     </div>
   </details>
 
-  <!-- ═══════════ OKOLICA ═══════════ -->
+  <!-- ═══════════ OKOLICA (8) ═══════════ -->
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#edf6e0;">📍</span>
-      <span class="lang-pl">Okolica, dworzec i lotnisko</span><span class="lang-en">Neighbourhood, station &amp; airport</span>
+      <span class="lang-pl">Okolica, dworzec i lotnisko</span><span class="lang-en">Neighbourhood, station &amp; airport</span><span class="lang-es">Alrededores, estación y aeropuerto</span><span class="lang-de">Umgebung, Bahnhof &amp; Flughafen</span><span class="lang-uk">Околиці, вокзал та аеропорт</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
-      <h3><span class="lang-pl">🚆 Dojazd</span><span class="lang-en">🚆 Getting around</span></h3>
+      <h3><span class="lang-pl">🚆 Dojazd</span><span class="lang-en">🚆 Getting around</span><span class="lang-es">🚆 Cómo moverse</span><span class="lang-de">🚆 Verkehrsanbindung</span><span class="lang-uk">🚆 Транспорт</span></h3>
       <table class="oplaty">
-        <tr><td><span class="lang-pl">Dworzec Warszawa Centralna</span><span class="lang-en">Warsaw Central Station</span></td><td>1 km · ~15 min <span class="lang-pl">pieszo</span><span class="lang-en">walk</span></td></tr>
-        <tr><td><span class="lang-pl">Lotnisko Chopina (WAW)</span><span class="lang-en">Chopin Airport (WAW)</span></td><td>8 km · 15–20 min <span class="lang-pl">autem</span><span class="lang-en">by car</span></td></tr>
-        <tr><td><span class="lang-pl">Metro i tramwaj: Rondo ONZ (linia M2)</span><span class="lang-en">Metro &amp; tram: Rondo ONZ (line M2)</span></td><td>450 m · 6 min</td></tr>
+        <tr><td><span class="lang-pl">Dworzec Warszawa Centralna</span><span class="lang-en">Warsaw Central Station</span><span class="lang-es">Estación Central de Varsovia</span><span class="lang-de">Hauptbahnhof Warszawa Centralna</span><span class="lang-uk">Центральний вокзал</span></td><td>1 km · ~15 min <span class="lang-pl">pieszo</span><span class="lang-en">walk</span><span class="lang-es">a pie</span><span class="lang-de">zu Fuß</span><span class="lang-uk">пішки</span></td></tr>
+        <tr><td><span class="lang-pl">Lotnisko Chopina (WAW)</span><span class="lang-en">Chopin Airport (WAW)</span><span class="lang-es">Aeropuerto Chopin (WAW)</span><span class="lang-de">Chopin-Flughafen (WAW)</span><span class="lang-uk">Аеропорт Шопена (WAW)</span></td><td>8 km · 15–20 min <span class="lang-pl">autem</span><span class="lang-en">by car</span><span class="lang-es">en coche</span><span class="lang-de">mit dem Auto</span><span class="lang-uk">автомобілем</span></td></tr>
+        <tr><td><span class="lang-pl">Metro i tramwaj: Rondo ONZ (linia M2)</span><span class="lang-en">Metro &amp; tram: Rondo ONZ (line M2)</span><span class="lang-es">Metro y tranvía: Rondo ONZ (línea M2)</span><span class="lang-de">Metro &amp; Straßenbahn: Rondo ONZ (Linie M2)</span><span class="lang-uk">Метро і трамвай: Rondo ONZ (лінія M2)</span></td><td>450 m · 6 min</td></tr>
       </table>
       <div class="lang-pl">
         <p>Na lotnisko najwygodniej: pociąg SKM/KM z Dworca Centralnego (ok. 20 min) lub taxi/Uber/Bolt (ok. 50–70 zł).</p>
@@ -453,6 +645,48 @@
         </ul>
         <p>Looking for a lunch or dinner spot? Ask our reception team — we're happy to recommend!</p>
       </div>
+      <div class="lang-es">
+        <p>La forma más cómoda de llegar al aeropuerto: tren SKM/KM desde la Estación Central (unos 20 min) o taxi/Uber/Bolt (50–70 PLN aprox.).</p>
+        <h3>⭐ Qué ver cerca</h3>
+        <ul>
+          <li><strong>Browary Warszawskie</strong> (restaurantes y bares) — 350 m, 4 min a pie</li>
+          <li><strong>Fábrica Norblin</strong> (food hall, museo) — 400 m, 5 min a pie</li>
+          <li><strong>Museo del Alzamiento de Varsovia</strong> — 1,1 km</li>
+          <li><strong>Palacio de Cultura y Ciencia</strong> (mirador) — 1,4 km</li>
+          <li><strong>Casco Antiguo</strong> — 2,5 km (tranvía/metro ~15 min)</li>
+          <li><strong>Museo POLIN</strong> — 1,8 km</li>
+          <li><strong>Parque Łazienki</strong> — 4,5 km</li>
+        </ul>
+        <p>¿Busca dónde comer o cenar? Pregunte a nuestro equipo de recepción — ¡con gusto le recomendamos!</p>
+      </div>
+      <div class="lang-de">
+        <p>Am bequemsten zum Flughafen: SKM/KM-Zug vom Hauptbahnhof (ca. 20 Min.) oder Taxi/Uber/Bolt (ca. 50–70 PLN).</p>
+        <h3>⭐ Sehenswertes in der Nähe</h3>
+        <ul>
+          <li><strong>Browary Warszawskie</strong> (Restaurants &amp; Bars) — 350 m, 4 Min. zu Fuß</li>
+          <li><strong>Norblin-Fabrik</strong> (Foodhall, Museum) — 400 m, 5 Min. zu Fuß</li>
+          <li><strong>Museum des Warschauer Aufstands</strong> — 1,1 km</li>
+          <li><strong>Kultur- und Wissenschaftspalast</strong> (Aussichtsterrasse) — 1,4 km</li>
+          <li><strong>Altstadt</strong> — 2,5 km (Tram/Metro ~15 Min.)</li>
+          <li><strong>POLIN-Museum</strong> — 1,8 km</li>
+          <li><strong>Łazienki-Park</strong> — 4,5 km</li>
+        </ul>
+        <p>Sie suchen ein Restaurant zum Mittag- oder Abendessen? Fragen Sie unser Rezeptionsteam — wir empfehlen gerne!</p>
+      </div>
+      <div class="lang-uk">
+        <p>Найзручніше до аеропорту: потяг SKM/KM з Центрального вокзалу (близько 20 хв) або таксі/Uber/Bolt (приблизно 50–70 zł).</p>
+        <h3>⭐ Варто побачити поруч</h3>
+        <ul>
+          <li><strong>Browary Warszawskie</strong> (ресторани та бари) — 350 м, 4 хв пішки</li>
+          <li><strong>Фабрика Норбліна</strong> (фуд-хол, музей) — 400 м, 5 хв пішки</li>
+          <li><strong>Музей Варшавського повстання</strong> — 1,1 км</li>
+          <li><strong>Палац культури і науки</strong> (оглядова тераса) — 1,4 км</li>
+          <li><strong>Старе місто</strong> — 2,5 км (трамвай/метро ~15 хв)</li>
+          <li><strong>Музей POLIN</strong> — 1,8 км</li>
+          <li><strong>Парк Лазєнки</strong> — 4,5 км</li>
+        </ul>
+        <p>Шукаєте, де пообідати чи повечеряти? Запитайте нашу рецепцію — радо порадимо!</p>
+      </div>
     </div>
   </details>
 
@@ -460,7 +694,7 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#edf6e0;">📋</span>
-      <span class="lang-pl">Regulamin hotelu — najważniejsze zasady</span><span class="lang-en">Hotel rules — key points</span>
+      <span class="lang-pl">Regulamin hotelu — najważniejsze zasady</span><span class="lang-en">Hotel rules — key points</span><span class="lang-es">Normas del hotel — puntos clave</span><span class="lang-de">Hausordnung — das Wichtigste</span><span class="lang-uk">Правила готелю — головне</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
@@ -487,6 +721,39 @@
         </ul>
         <p>Full rules available at reception and online: <a href="hotel_regulations.pdf" target="_blank">full hotel rules (PDF)</a>.</p>
       </div>
+      <div class="lang-es">
+        <ul>
+          <li><strong>Horario de silencio:</strong> 22:00 – 6:00.</li>
+          <li><strong>Prohibido fumar</strong> en todo el edificio (habitaciones, baños, pasillos) — también cigarrillos electrónicos. Solo en la zona exterior designada.</li>
+          <li>Las visitas no registradas pueden permanecer en la habitación de 7:00 a 22:00.</li>
+          <li>Aceptamos mascotas con aviso previo (tarifa según la lista de precios).</li>
+          <li>El hotel no se responsabiliza de objetos de valor dejados fuera de la caja fuerte / depósito de recepción.</li>
+          <li>El huésped responde económicamente de los daños causados por su culpa.</li>
+        </ul>
+        <p>Normas completas en recepción y en línea: <a href="hotel_regulations.pdf" target="_blank">texto completo (PDF, en inglés)</a>.</p>
+      </div>
+      <div class="lang-de">
+        <ul>
+          <li><strong>Nachtruhe:</strong> 22:00 – 6:00 Uhr.</li>
+          <li><strong>Rauchverbot</strong> im gesamten Gebäude (Zimmer, Bäder, Flure) — auch E-Zigaretten. Rauchen nur im ausgewiesenen Außenbereich.</li>
+          <li>Nicht eingecheckte Besucher dürfen sich von 7:00 bis 22:00 Uhr im Zimmer aufhalten.</li>
+          <li>Haustiere nach vorheriger Anmeldung willkommen (Gebühr laut Preisliste).</li>
+          <li>Das Hotel haftet nicht für Wertsachen außerhalb des Safes / der Verwahrung an der Rezeption.</li>
+          <li>Gäste haften für von ihnen verursachte Schäden an der Ausstattung.</li>
+        </ul>
+        <p>Die vollständige Hausordnung an der Rezeption und online: <a href="hotel_regulations.pdf" target="_blank">vollständige Hausordnung (PDF, Englisch)</a>.</p>
+      </div>
+      <div class="lang-uk">
+        <ul>
+          <li><strong>Тиша:</strong> 22:00 – 6:00.</li>
+          <li><strong>Куріння заборонене</strong> в усій будівлі (номери, ванні кімнати, коридори) — зокрема електронні сигарети. Курити можна лише у відведеній зоні надворі.</li>
+          <li>Незареєстровані відвідувачі можуть перебувати в номері з 7:00 до 22:00.</li>
+          <li>Тварин приймаємо за попереднім повідомленням (оплата згідно з прайсом).</li>
+          <li>Готель не відповідає за цінні речі, залишені поза сейфом/депозитом на рецепції.</li>
+          <li>Гість несе матеріальну відповідальність за пошкодження обладнання з його вини.</li>
+        </ul>
+        <p>Повний текст правил — на рецепції та онлайн: <a href="hotel_regulations.pdf" target="_blank">повні правила готелю (PDF, англійською)</a>.</p>
+      </div>
     </div>
   </details>
 
@@ -494,29 +761,28 @@
   <details class="sekcja">
     <summary class="naglowek">
       <span class="ikona" style="background:#fef9c3;">💳</span>
-      <span class="lang-pl">Opłaty dodatkowe i kary umowne</span><span class="lang-en">Extra charges &amp; penalty fees</span>
+      <span class="lang-pl">Opłaty dodatkowe i kary umowne</span><span class="lang-en">Extra charges &amp; penalty fees</span><span class="lang-es">Cargos adicionales y penalizaciones</span><span class="lang-de">Zusatzkosten &amp; Vertragsstrafen</span><span class="lang-uk">Додаткові послуги та штрафи</span>
       <span class="strzalka">›</span>
     </summary>
     <div class="tresc">
-      <!-- EDYTUJ TUTAJ: cennik — wpisz prawdziwe kwoty! -->
-      <h3><span class="lang-pl">Usługi dodatkowe</span><span class="lang-en">Extra services</span></h3>
+      <!-- EDYTUJ TUTAJ: cennik -->
+      <h3><span class="lang-pl">Usługi dodatkowe</span><span class="lang-en">Extra services</span><span class="lang-es">Servicios adicionales</span><span class="lang-de">Zusatzleistungen</span><span class="lang-uk">Додаткові послуги</span></h3>
       <table class="oplaty">
-        <tr><td><span class="lang-pl">Późne wymeldowanie (do 15:00)</span><span class="lang-en">Late check-out (until 3 PM)</span></td><td>150 zł</td></tr>
-        <tr><td><span class="lang-pl">Śniadanie (dokupione na miejscu)</span><span class="lang-en">Breakfast (purchased on site)</span></td><td>100 zł</td></tr>
-        <tr><td><span class="lang-pl">Parking / doba</span><span class="lang-en">Parking / night</span></td><td>110 zł</td></tr>
-        <tr><td><span class="lang-pl">Pobyt zwierzęcia / doba</span><span class="lang-en">Pet stay / night</span></td><td>50 zł</td></tr>
-        <tr><td><span class="lang-pl">Dostawka / łóżeczko dziecięce</span><span class="lang-en">Extra bed / baby cot</span></td><td>50 zł</td></tr>
+        <tr><td><span class="lang-pl">Późne wymeldowanie (do 15:00)</span><span class="lang-en">Late check-out (until 3 PM)</span><span class="lang-es">Salida tardía (hasta las 15:00)</span><span class="lang-de">Später Check-out (bis 15:00)</span><span class="lang-uk">Пізній виїзд (до 15:00)</span></td><td>150 zł</td></tr>
+        <tr><td><span class="lang-pl">Śniadanie (dokupione na miejscu)</span><span class="lang-en">Breakfast (purchased on site)</span><span class="lang-es">Desayuno (comprado en el hotel)</span><span class="lang-de">Frühstück (vor Ort gekauft)</span><span class="lang-uk">Сніданок (куплений на місці)</span></td><td>100 zł</td></tr>
+        <tr><td><span class="lang-pl">Parking / doba</span><span class="lang-en">Parking / night</span><span class="lang-es">Parking / noche</span><span class="lang-de">Parkplatz / Nacht</span><span class="lang-uk">Паркінг / доба</span></td><td>110 zł</td></tr>
+        <tr><td><span class="lang-pl">Pobyt zwierzęcia / doba</span><span class="lang-en">Pet stay / night</span><span class="lang-es">Mascota / noche</span><span class="lang-de">Haustier / Nacht</span><span class="lang-uk">Перебування тварини / доба</span></td><td>50 zł</td></tr>
+        <tr><td><span class="lang-pl">Dostawka / łóżeczko dziecięce</span><span class="lang-en">Extra bed / baby cot</span><span class="lang-es">Cama supletoria / cuna</span><span class="lang-de">Zustellbett / Babybett</span><span class="lang-uk">Додаткове ліжко / дитяче ліжечко</span></td><td>50 zł</td></tr>
       </table>
-      <h3><span class="lang-pl">Kary umowne (za złamanie regulaminu)</span><span class="lang-en">Penalty fees (for breaking hotel rules)</span></h3>
+      <h3><span class="lang-pl">Kary umowne (za złamanie regulaminu)</span><span class="lang-en">Penalty fees (for breaking hotel rules)</span><span class="lang-es">Penalizaciones (por incumplir las normas)</span><span class="lang-de">Vertragsstrafen (bei Regelverstößen)</span><span class="lang-uk">Штрафи (за порушення правил)</span></h3>
       <table class="oplaty">
-        <tr><td><span class="lang-pl">Palenie w pokoju (koszt ozonowania)</span><span class="lang-en">Smoking in the room (ozone treatment cost)</span></td><td>1000 zł</td></tr>
-        <tr><td><span class="lang-pl">Zagubienie karty / klucza</span><span class="lang-en">Lost key card</span></td><td>50 zł</td></tr>
-        <tr><td><span class="lang-pl">Zniszczenie wyposażenia</span><span class="lang-en">Damage to room equipment</span></td><td><span class="lang-pl">wg wyceny</span><span class="lang-en">per valuation</span></td></tr>
-        <tr><td><span class="lang-pl">Nieuzasadnione uruchomienie alarmu ppoż.</span><span class="lang-en">Unjustified fire alarm activation</span></td><td>5000 zł</td></tr>
+        <tr><td><span class="lang-pl">Palenie w pokoju (koszt ozonowania)</span><span class="lang-en">Smoking in the room (ozone treatment cost)</span><span class="lang-es">Fumar en la habitación (coste de ozonización)</span><span class="lang-de">Rauchen im Zimmer (Ozonbehandlung)</span><span class="lang-uk">Куріння в номері (вартість озонування)</span></td><td>1000 zł</td></tr>
+        <tr><td><span class="lang-pl">Zagubienie karty / klucza</span><span class="lang-en">Lost key card</span><span class="lang-es">Pérdida de la tarjeta-llave</span><span class="lang-de">Verlust der Schlüsselkarte</span><span class="lang-uk">Втрата картки-ключа</span></td><td>50 zł</td></tr>
+        <tr><td><span class="lang-pl">Zniszczenie wyposażenia</span><span class="lang-en">Damage to room equipment</span><span class="lang-es">Daños al equipamiento</span><span class="lang-de">Beschädigung der Ausstattung</span><span class="lang-uk">Пошкодження обладнання</span></td><td><span class="lang-pl">wg wyceny</span><span class="lang-en">per valuation</span><span class="lang-es">según tasación</span><span class="lang-de">nach Schätzung</span><span class="lang-uk">за оцінкою</span></td></tr>
+        <tr><td><span class="lang-pl">Nieuzasadnione uruchomienie alarmu ppoż.</span><span class="lang-en">Unjustified fire alarm activation</span><span class="lang-es">Activación injustificada de la alarma de incendios</span><span class="lang-de">Unbegründetes Auslösen des Feueralarms</span><span class="lang-uk">Безпідставне ввімкнення пожежної тривоги</span></td><td>5000 zł</td></tr>
       </table>
       <div class="uwaga">
-        <span class="lang-pl">Kwoty kar wynikają z realnych kosztów przywrócenia pokoju do sprzedaży (np. wyłączenie pokoju na dobę po paleniu).</span>
-        <span class="lang-en">Penalty amounts reflect the real cost of returning the room to service (e.g. a room must be taken out of sale after smoking).</span>
+        <span class="lang-pl">Kwoty kar wynikają z realnych kosztów przywrócenia pokoju do sprzedaży (np. wyłączenie pokoju na dobę po paleniu).</span><span class="lang-en">Penalty amounts reflect the real cost of returning the room to service (e.g. a room must be taken out of sale after smoking).</span><span class="lang-es">Los importes reflejan el coste real de devolver la habitación a la venta (p. ej., tras fumar, la habitación queda fuera de venta un día).</span><span class="lang-de">Die Beträge entsprechen den realen Kosten, das Zimmer wieder verkaufsfertig zu machen (z. B. Zimmerausfall für einen Tag nach dem Rauchen).</span><span class="lang-uk">Суми штрафів відповідають реальним витратам на повернення номера в продаж (наприклад, після куріння номер вилучається з продажу на добу).</span>
       </div>
     </div>
   </details>
@@ -527,10 +793,10 @@
        wystawienia opinii: Profil Firmy w Google -> „Poproś o opinie"
        -> skopiuj krótki link (g.page/r/...) i wklej poniżej w href. -->
   <div class="social">
-    <h2><span class="lang-pl">Podobał Ci się pobyt? 💚</span><span class="lang-en">Enjoyed your stay? 💚</span></h2>
-    <p><span class="lang-pl">Twoja opinia znaczy dla nas bardzo dużo!</span><span class="lang-en">Your review means the world to us!</span></p>
+    <h2><span class="lang-pl">Podobał Ci się pobyt? 💚</span><span class="lang-en">Enjoyed your stay? 💚</span><span class="lang-es">¿Le ha gustado su estancia? 💚</span><span class="lang-de">Hat Ihnen der Aufenthalt gefallen? 💚</span><span class="lang-uk">Сподобалося проживання? 💚</span></h2>
+    <p><span class="lang-pl">Twoja opinia znaczy dla nas bardzo dużo!</span><span class="lang-en">Your review means the world to us!</span><span class="lang-es">¡Su opinión significa mucho para nosotros!</span><span class="lang-de">Ihre Bewertung bedeutet uns sehr viel!</span><span class="lang-uk">Ваш відгук дуже важливий для нас!</span></p>
     <div class="przyciski">
-      <a class="google" href="https://www.google.com/maps/search/?api=1&amp;query=ibis%20Styles%20Warszawa%20City%20Grzybowska%2043%20Warszawa" target="_blank">⭐ <span class="lang-pl">Oceń nas w Google</span><span class="lang-en">Rate us on Google</span></a>
+      <a class="google" href="https://www.google.com/maps/search/?api=1&amp;query=ibis%20Styles%20Warszawa%20City%20Grzybowska%2043%20Warszawa" target="_blank">⭐ <span class="lang-pl">Oceń nas w Google</span><span class="lang-en">Rate us on Google</span><span class="lang-es">Valórenos en Google</span><span class="lang-de">Bewerten Sie uns</span><span class="lang-uk">Оцініть нас у Google</span></a>
       <a class="insta" href="https://www.instagram.com/ibisstyles_warszawacity/" target="_blank">📸 Instagram</a>
       <a class="fb" href="https://www.facebook.com/ibisstyleswarszawacity" target="_blank">👍 Facebook</a>
     </div>
@@ -539,23 +805,31 @@
 </main>
 
 <footer>
-  ibis Styles Warszawa City · <span class="lang-pl">Życzymy udanego pobytu!</span><span class="lang-en">Enjoy your stay!</span>
+  ibis Styles Warszawa City · <span class="lang-pl">Życzymy udanego pobytu!</span><span class="lang-en">Enjoy your stay!</span><span class="lang-es">¡Feliz estancia!</span><span class="lang-de">Einen angenehmen Aufenthalt!</span><span class="lang-uk">Приємного перебування!</span>
 </footer>
 
 <script>
-// ─── Język ───
+// ─── Języki: pl / en / es / de / uk ───
+var JEZYKI = ['pl','en','es','de','uk'];
 function ustawJezyk(j){
-  document.body.classList.toggle('en', j==='en');
-  document.getElementById('btn-pl').classList.toggle('active', j==='pl');
-  document.getElementById('btn-en').classList.toggle('active', j==='en');
+  if(JEZYKI.indexOf(j) === -1){ j = 'en'; }
+  for(var i = 0; i < JEZYKI.length; i++){
+    document.body.classList.toggle(JEZYKI[i], JEZYKI[i] === j);
+  }
+  var przyciski = document.querySelectorAll('.lang-switch button');
+  for(var k = 0; k < przyciski.length; k++){
+    przyciski[k].classList.toggle('active', przyciski[k].getAttribute('data-jezyk') === j);
+  }
+  document.documentElement.lang = j;
   try{ localStorage.setItem('jezyk', j); }catch(e){}
 }
-// zapamiętany wybór lub język telefonu gościa
+// zapamiętany wybór lub język telefonu gościa (nieznany język -> angielski)
 (function(){
   var zapisany = null;
   try{ zapisany = localStorage.getItem('jezyk'); }catch(e){}
-  if(zapisany){ ustawJezyk(zapisany); }
-  else if(!/^pl/i.test(navigator.language||'')){ ustawJezyk('en'); }
+  if(zapisany && JEZYKI.indexOf(zapisany) > -1){ ustawJezyk(zapisany); return; }
+  var jezykTelefonu = (navigator.language || 'en').slice(0,2).toLowerCase();
+  ustawJezyk(JEZYKI.indexOf(jezykTelefonu) > -1 ? jezykTelefonu : 'en');
 })();
 
 // ─── Personalizacja z linku QR: ?pokoj=215&ewak=lewo ───
@@ -567,7 +841,11 @@ function ustawJezyk(j){
   if(pokoj){
     var b = document.getElementById('pokoj-badge');
     b.style.display = 'inline-block';
-    b.innerHTML = '<span class="lang-pl">Pokój ' + pokoj + '</span><span class="lang-en">Room ' + pokoj + '</span>';
+    b.innerHTML = '<span class="lang-pl">Pokój ' + pokoj + '</span>' +
+                  '<span class="lang-en">Room ' + pokoj + '</span>' +
+                  '<span class="lang-es">Habitación ' + pokoj + '</span>' +
+                  '<span class="lang-de">Zimmer ' + pokoj + '</span>' +
+                  '<span class="lang-uk">Номер ' + pokoj + '</span>';
   }
   // strzałka SVG obracana w kierunku ewakuacji (lewo / prawo / prosto)
   // — pokazuje się tylko, gdy link QR zawiera kierunek; sama grafika, bez słów
