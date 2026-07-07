@@ -578,5 +578,19 @@ function ustawJezyk(j){
   }
 })();
 </script>
+
+<!-- ─── STATYSTYKI WEJŚĆ (GoatCounter) ───
+     Panel z wykresami: https://iswc-hotel.goatcounter.com
+     Licznik nie używa cookies i nie zbiera danych osobowych gości.
+     Każdy pokój zliczany jest osobno (numer z linku QR). -->
+<script>
+  window.goatcounter = {
+    path: function() {
+      var pokoj = new URLSearchParams(location.search).get('pokoj');
+      return location.pathname + (pokoj ? '?pokoj=' + pokoj : '');
+    }
+  };
+</script>
+<script data-goatcounter="https://iswc-hotel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
